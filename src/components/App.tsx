@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import esbuild from "esbuild-wasm";
 
 import { unpkgPathPlugin } from "../plugins/unpkg-path-plugin";
+import { onLoadPlugin } from "../plugins/onload-plugin";
 
 const App: React.FC = () => {
+  const [input, setInput] = useState("");
   const [code, setCode] = useState("");
 
   const esbuildRef = useRef<any>();
@@ -24,7 +26,7 @@ const App: React.FC = () => {
       entryPoints: ["index.js"],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin()],
+      plugins: [unpkgPathPlugin(), onLoadPlugin(input)],
     });
 
     setCode(result.outputFiles[0].text);
@@ -32,7 +34,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <textarea />
+      <textarea value={input} onChange={(e) => setInput(e.target.value)} />
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
