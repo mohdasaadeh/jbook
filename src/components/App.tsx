@@ -1,4 +1,5 @@
 import React from "react";
+import "bulmaswatch/superhero/bulmaswatch.min.css";
 
 import Code from "./Code";
 
