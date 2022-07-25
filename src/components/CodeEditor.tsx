@@ -60,7 +60,7 @@ const CodeEditor: React.ForwardRefRenderFunction<any> = (props, ref) => {
         onMount={handleEditorDidMount}
         theme="vs-dark"
         language="javascript"
-        height="500px"
+        height="100%"
         options={{
           wordWrap: "on",
           minimap: { enabled: false },

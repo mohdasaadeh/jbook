@@ -1,11 +1,16 @@
 import React, { useRef, useEffect } from "react";
 
+import "./styles/code-preview.css";
+
 interface CodePreviewProps {
   code: string;
 }
 
 const html = `
     <html>
+      <head>
+        <style>html { background-color: white; }</style>
+      </head>
       <body>
         <div id="root"></div>
         <script>
@@ -38,12 +43,14 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
   }, [code]);
 
   return (
-    <iframe
-      ref={iframeRef}
-      title="preview"
-      sandbox="allow-scripts"
-      srcDoc={html}
-    />
+    <div className="preview-wrapper">
+      <iframe
+        ref={iframeRef}
+        title="preview"
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
+    </div>
   );
 };
 

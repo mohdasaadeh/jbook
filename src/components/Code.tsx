@@ -4,6 +4,7 @@ import esbuild from "esbuild-wasm";
 import _CodeEditor from "./CodeEditor";
 import bundle from "../bundler";
 import CodePreview from "./CodePreview";
+import Resizable from "./Resizable";
 
 const CodeEditor = React.forwardRef<React.FC>(_CodeEditor);
 
@@ -32,11 +33,19 @@ const Code: React.FC = () => {
 
   return (
     <div>
-      <CodeEditor ref={codeEditorRef} />
-      <div>
-        <button onClick={onClick}>Execute</button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button style={{ fontSize: "18px" }} onClick={onClick}>
+          Execute
+        </button>
       </div>
-      <CodePreview code={code} />
+      <Resizable direction="vertical">
+        <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
+          <Resizable direction="horizontal">
+            <CodeEditor ref={codeEditorRef} />
+          </Resizable>
+          <CodePreview code={code} />
+        </div>
+      </Resizable>
     </div>
   );
 };
