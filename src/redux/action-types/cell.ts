@@ -1,0 +1,6 @@
+export enum CellActionTypes {
+  INSERT_CELL = "INSERT_CELL",
+  MOVE_CELL = "MOVE_CELL",
+  DELETE_CELL = "DELETE_CELL",
+  UPDATE_CELL = "UPDATE_CELL",
+}
