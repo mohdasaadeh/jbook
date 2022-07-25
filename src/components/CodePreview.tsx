@@ -4,6 +4,7 @@ import "./styles/code-preview.css";
 
 interface CodePreviewProps {
   code: string;
+  error: string;
 }
 
 const html = `
@@ -14,19 +15,31 @@ const html = `
       <body>
         <div id="root"></div>
         <script>
+          const errorHandler = (error) => {
+            document.getElementById('root').innerHTML = '<div style="color: red;">' + error + '</div>';
+
+            console.error(error);
+          };
+
+          window.addEventListener('error', (event) => {
+            event.preventDefault();
+
+            errorHandler(event.error);
+          });
+
           window.addEventListener('message', async (event) => {
             try {
               eval(event.data);
             } catch(error) {
-              document.getElementById('root').innerHTML = '<div style="color: red;">' + error + '</div>';
-            }
+              errorHandler(error);
+            };
           }, false);
         </script>
       </body>
     </html>
   `;
 
-const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
+const CodePreview: React.FC<CodePreviewProps> = ({ code, error }) => {
   const iframeRef = useRef<any>();
 
   useEffect(() => {
@@ -50,6 +63,7 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code }) => {
         sandbox="allow-scripts"
         srcDoc={html}
       />
+      {error && <div className="preview-error">{error}</div>}
     </div>
   );
 };

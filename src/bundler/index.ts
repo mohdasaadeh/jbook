@@ -4,14 +4,21 @@ import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { onLoadPlugin } from "./plugins/onload-plugin";
 
 const bundle = async (rawCode: string) => {
-  const result = await esbuild.build({
-    entryPoints: ["index.js"],
-    bundle: true,
-    write: false,
-    plugins: [unpkgPathPlugin(), onLoadPlugin(rawCode)],
-  });
+  try {
+    const result = await esbuild.build({
+      entryPoints: ["index.js"],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), onLoadPlugin(rawCode)],
+    });
 
-  return result.outputFiles[0].text;
+    return { code: result.outputFiles[0].text, error: "" };
+  } catch (error) {
+    return {
+      code: "",
+      error: error instanceof Error && error.message,
+    };
+  }
 };
 
 export default bundle;

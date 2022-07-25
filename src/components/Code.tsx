@@ -10,6 +10,7 @@ const CodeEditor = React.forwardRef<React.FC>(_CodeEditor);
 
 const Code: React.FC = () => {
   const [code, setCode] = useState("");
+  const [bundleStatus, setBundleStatus] = useState("");
 
   const esbuildRef = useRef<any>();
   const codeEditorRef = useRef<any>();
@@ -28,7 +29,8 @@ const Code: React.FC = () => {
   const onClick = async () => {
     const result = await bundle(codeEditorRef.current.showValue());
 
-    setCode(result);
+    setCode(result.code);
+    setBundleStatus(result.error || "");
   };
 
   return (
@@ -43,7 +45,7 @@ const Code: React.FC = () => {
           <Resizable direction="horizontal">
             <CodeEditor ref={codeEditorRef} />
           </Resizable>
-          <CodePreview code={code} />
+          <CodePreview code={code} error={bundleStatus} />
         </div>
       </Resizable>
     </div>
