@@ -1,6 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import "bulmaswatch/superhero/bulmaswatch.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import CellList from "./CellList";
 import { store } from "../redux/store";

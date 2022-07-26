@@ -3,26 +3,38 @@ import Code from "./Code";
 import TextEditor from "./TextEditor";
 import InsertBar from "./InsertBar";
 import { Cell } from "../redux";
+import "./styles/cell-item.css";
 
 interface CellItemProps {
   cell: Cell;
 }
 
 const CellItem: React.FC<CellItemProps> = ({ cell }) => {
-  let CellComponent: React.FC;
+  let child: JSX.Element;
 
   const { id, type } = cell;
 
   if (type === "code") {
-    CellComponent = Code;
+    child = (
+      <>
+        <div className="action-bar-wrapper">
+          <ControlBar cell={cell} />
+        </div>
+        <Code />
+      </>
+    );
   } else {
-    CellComponent = TextEditor;
+    child = (
+      <>
+        <TextEditor />
+        <ControlBar cell={cell} />
+      </>
+    );
   }
 
   return (
-    <div>
-      <ControlBar cell={cell} />
-      <CellComponent />
+    <div className="cell-list-item">
+      {child}
       <InsertBar id={id} />
     </div>
   );

@@ -41,7 +41,7 @@ const CellList: React.FC = () => {
 
   return (
     <div>
-      <InsertBar id={null} />
+      <InsertBar forceVisible={cells ? cells.length === 0 : false} id={null} />
       {renderList()}
     </div>
   );
