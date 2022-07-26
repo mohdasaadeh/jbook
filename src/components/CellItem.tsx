@@ -20,14 +20,16 @@ const CellItem: React.FC<CellItemProps> = ({ cell }) => {
         <div className="action-bar-wrapper">
           <ControlBar cell={cell} />
         </div>
-        <Code />
+        <Code cell={cell} />
       </>
     );
   } else {
     child = (
       <>
-        <TextEditor />
-        <ControlBar cell={cell} />
+        <div className="action-bar-wrapper">
+          <ControlBar cell={cell} />
+        </div>
+        <TextEditor cell={cell} />
       </>
     );
   }

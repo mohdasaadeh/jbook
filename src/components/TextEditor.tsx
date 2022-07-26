@@ -1,13 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import MDEditor from "@uiw/react-md-editor";
 
+import { Cell } from "../redux";
+import { useActionCreators } from "../hooks";
 import "./styles/text-editor.css";
 
-const TextEditor: React.FC = () => {
+interface TextEditorProps {
+  cell: Cell;
+}
+
+const TextEditor: React.FC<TextEditorProps> = ({ cell }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState("# Header");
+  const [value, setValue] = useState(cell.content || "Start typing...");
+
+  const { updateCell } = useActionCreators();
 
   useEffect(() => {
     const listener = (event: MouseEvent) => {
@@ -31,7 +39,14 @@ const TextEditor: React.FC = () => {
   if (editing) {
     return (
       <div className="text-editor" ref={ref}>
-        <MDEditor value={value} onChange={(v) => setValue(v || "")} />
+        <MDEditor
+          value={value}
+          onChange={(v) => {
+            setValue(v || "");
+
+            updateCell(cell.id, v || "");
+          }}
+        />
       </div>
     );
   }
