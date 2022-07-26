@@ -39,9 +39,9 @@ export const cellReducer = produce(
         };
 
         if (!id) {
-          state.order.push(gRandomId);
+          state.order.unshift(gRandomId);
         } else {
-          state.order.splice(id, 0, gRandomId);
+          state.order.splice(id + 1, 0, gRandomId);
         }
 
         return state;
@@ -51,6 +51,9 @@ export const cellReducer = produce(
           action.payload.direction === "up"
             ? currentIndex - 1
             : currentIndex + 1;
+
+        if (targetIndex > state.order.length - 1 && targetIndex < 0)
+          return state;
 
         [state.order[currentIndex], state.order[targetIndex]] = [
           state.order[targetIndex],
