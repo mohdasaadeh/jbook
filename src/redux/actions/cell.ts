@@ -4,7 +4,7 @@ import { CellTypes, CellMoveDirections } from "../types";
 export interface InsertCellAction {
   type: CellActionTypes.INSERT_CELL;
   payload: {
-    id: number | null;
+    id: string | null;
     type: CellTypes;
   };
 }

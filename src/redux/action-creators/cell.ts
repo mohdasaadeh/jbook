@@ -7,7 +7,10 @@ import {
 } from "../actions";
 import { CellTypes, CellMoveDirections } from "../types";
 
-export const insertCell = (id: number, type: CellTypes): InsertCellAction => {
+export const insertCell = (
+  id: string | null,
+  type: CellTypes
+): InsertCellAction => {
   return { type: CellActionTypes.INSERT_CELL, payload: { id, type } };
 };
 

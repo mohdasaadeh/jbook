@@ -4,7 +4,7 @@ import { CellAction } from "../actions";
 import { CellActionTypes } from "../action-types";
 import { CellTypes } from "../types";
 
-interface Cell {
+export interface Cell {
   id: string;
   type: CellTypes;
   content: string;
@@ -41,7 +41,7 @@ export const cellReducer = produce(
         if (!id) {
           state.order.unshift(gRandomId);
         } else {
-          state.order.splice(id + 1, 0, gRandomId);
+          state.order.splice(state.order.indexOf(id) + 1, 0, gRandomId);
         }
 
         return state;
@@ -52,7 +52,7 @@ export const cellReducer = produce(
             ? currentIndex - 1
             : currentIndex + 1;
 
-        if (targetIndex > state.order.length - 1 && targetIndex < 0)
+        if (targetIndex > state.order.length - 1 || targetIndex < 0)
           return state;
 
         [state.order[currentIndex], state.order[targetIndex]] = [

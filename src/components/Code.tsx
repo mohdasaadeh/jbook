@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import esbuild from "esbuild-wasm";
+import React, { useState, useRef } from "react";
 
 import _CodeEditor from "./CodeEditor";
 import bundle from "../bundler";
@@ -12,19 +11,7 @@ const Code: React.FC = () => {
   const [code, setCode] = useState("");
   const [bundleStatus, setBundleStatus] = useState("");
 
-  const esbuildRef = useRef<any>();
   const codeEditorRef = useRef<any>();
-
-  useEffect(() => {
-    const startService = async () => {
-      esbuildRef.current = await esbuild.initialize({
-        worker: true,
-        wasmURL: "/esbuild.wasm",
-      });
-    };
-
-    startService();
-  }, []);
 
   const onClick = async () => {
     const result = await bundle(codeEditorRef.current.showValue());
