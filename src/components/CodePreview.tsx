@@ -4,7 +4,7 @@ import "./styles/code-preview.css";
 
 interface CodePreviewProps {
   code: string;
-  error: string;
+  error: string | false;
 }
 
 const html = `
@@ -56,7 +56,7 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code, error }) => {
   }, [code]);
 
   return (
-    <div className="preview-wrapper">
+    <div>
       <iframe
         ref={iframeRef}
         title="preview"

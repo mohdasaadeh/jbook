@@ -1,0 +1,16 @@
+.code-preview-wrapper {
+  position: relative;
+  height: 100%;
+  background-color: white;
+  flex-grow: 1;
+}
+
+.code-preview-loading {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}

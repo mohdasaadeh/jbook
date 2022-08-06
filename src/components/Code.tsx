@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
+import "./styles/code.css";
 import _CodeEditor from "./CodeEditor";
-import bundle from "../bundler";
 import CodePreview from "./CodePreview";
 import Resizable from "./Resizable";
 import { Cell } from "../redux";
-import { useActionCreators } from "../hooks";
+import { useActionCreators, useTypedSelector } from "../hooks";
 
 const CodeEditor = React.forwardRef<React.FC>(_CodeEditor);
 
@@ -14,20 +14,22 @@ interface CodeProps {
 }
 
 const Code: React.FC<CodeProps> = ({ cell }) => {
-  const [code, setCode] = useState("");
-  const [bundleStatus, setBundleStatus] = useState("");
+  const { id } = cell;
+
+  const bundle = useTypedSelector(({ bundles }) => {
+    if (bundles) return bundles[id];
+  });
 
   const codeEditorRef = useRef<any>();
 
-  const { updateCell } = useActionCreators();
+  const { updateCell, createBundle } = useActionCreators();
 
   const onClick = async () => {
-    const result = await bundle(codeEditorRef.current.showValue());
+    const cellContent = codeEditorRef.current.showValue();
 
-    setCode(result.code);
-    setBundleStatus(result.error || "");
+    createBundle(id, cellContent);
 
-    updateCell(cell.id, code);
+    updateCell(id, cellContent);
   };
 
   return (
@@ -42,7 +44,14 @@ const Code: React.FC<CodeProps> = ({ cell }) => {
           <Resizable direction="horizontal">
             <CodeEditor ref={codeEditorRef} />
           </Resizable>
-          <CodePreview code={code} error={bundleStatus} />
+          <div className="code-preview-wrapper">
+            {bundle && bundle.loading && (
+              <div className="code-preview-loading">Loading...</div>
+            )}
+            {bundle && (bundle.code || bundle.error) && (
+              <CodePreview code={bundle.code} error={bundle.error} />
+            )}
+          </div>
         </div>
       </Resizable>
     </div>
