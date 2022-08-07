@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import esbuild from "esbuild-wasm";
 
+import "./styles/cell-list.css";
 import { useTypedSelector } from "../hooks";
 import CellItem from "./CellItem";
 import InsertBar from "./InsertBar";
@@ -40,7 +41,7 @@ const CellList: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="cell-list">
       <InsertBar forceVisible={cells ? cells.length === 0 : false} id={null} />
       {renderList()}
     </div>

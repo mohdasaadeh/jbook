@@ -56,7 +56,7 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code, error }) => {
   }, [code]);
 
   return (
-    <div>
+    <>
       <iframe
         ref={iframeRef}
         title="preview"
@@ -64,7 +64,7 @@ const CodePreview: React.FC<CodePreviewProps> = ({ code, error }) => {
         srcDoc={html}
       />
       {error && <div className="preview-error">{error}</div>}
-    </div>
+    </>
   );
 };
 

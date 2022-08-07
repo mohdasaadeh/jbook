@@ -10,6 +10,8 @@ const bundle = async (rawCode: string) => {
       bundle: true,
       write: false,
       plugins: [unpkgPathPlugin(), onLoadPlugin(rawCode)],
+      jsxFactory: "_React.createElement",
+      jsxFragment: "_React.Fragment",
     });
 
     return { code: result.outputFiles[0].text, error: "" };

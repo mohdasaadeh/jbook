@@ -5,7 +5,11 @@ import _CodeEditor from "./CodeEditor";
 import CodePreview from "./CodePreview";
 import Resizable from "./Resizable";
 import { Cell } from "../redux";
-import { useActionCreators, useTypedSelector } from "../hooks";
+import {
+  useActionCreators,
+  useTypedSelector,
+  useCumulativeCode,
+} from "../hooks";
 
 const CodeEditor = React.forwardRef<React.FC>(_CodeEditor);
 
@@ -16,6 +20,8 @@ interface CodeProps {
 const Code: React.FC<CodeProps> = ({ cell }) => {
   const { id } = cell;
 
+  const rawCode = useCumulativeCode(id);
+
   const bundle = useTypedSelector(({ bundles }) => {
     if (bundles) return bundles[id];
   });
@@ -25,9 +31,11 @@ const Code: React.FC<CodeProps> = ({ cell }) => {
   const { updateCell, createBundle } = useActionCreators();
 
   const onClick = async () => {
-    const cellContent = codeEditorRef.current.showValue();
+    const cellContent: string = codeEditorRef.current.showValue();
 
-    createBundle(id, cellContent);
+    rawCode.push(cellContent);
+
+    createBundle(id, rawCode.join("\n"));
 
     updateCell(id, cellContent);
   };
